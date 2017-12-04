@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.Xfermode;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -18,6 +17,9 @@ public class Practice08XfermodeView extends View {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Bitmap bitmap1;
     Bitmap bitmap2;
+    PorterDuffXfermode mode1;
+    PorterDuffXfermode mode2;
+    PorterDuffXfermode mode3;
 
     public Practice08XfermodeView(Context context) {
         super(context);
@@ -34,6 +36,10 @@ public class Practice08XfermodeView extends View {
     {
         bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.batman);
         bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.batman_logo);
+        mode1 = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
+        mode2 = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
+        mode3 = new PorterDuffXfermode(PorterDuff.Mode.XOR);
+
     }
 
     @Override
@@ -43,33 +49,24 @@ public class Practice08XfermodeView extends View {
         // 使用 paint.setXfermode() 设置不同的结合绘制效果
 
         // 别忘了用 canvas.saveLayer() 开启 off-screen buffer
-
-        int saved = canvas.saveLayer(null, null, Canvas.ALL_SAVE_FLAG);
+        int count = canvas.saveLayer(null, null, Canvas.ALL_SAVE_FLAG);
 
         canvas.drawBitmap(bitmap1, 0, 0, paint);
-        // 第一个：PorterDuff.Mode.SRC
-        Xfermode mode = new PorterDuffXfermode(PorterDuff.Mode.SRC);
-        paint.setXfermode(mode);
+        paint.setXfermode(mode1);
         canvas.drawBitmap(bitmap2, 0, 0, paint);
         paint.setXfermode(null);
 
         canvas.drawBitmap(bitmap1, bitmap1.getWidth() + 100, 0, paint);
-        // 第二个：PorterDuff.Mode.DST_IN
-        Xfermode mode1 = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
-        paint.setXfermode(mode1);
+        paint.setXfermode(mode2);
         canvas.drawBitmap(bitmap2, bitmap1.getWidth() + 100, 0, paint);
         paint.setXfermode(null);
 
         canvas.drawBitmap(bitmap1, 0, bitmap1.getHeight() + 20, paint);
-        // 第三个：PorterDuff.Mode.DST_OUT
-        Xfermode mode2 = new PorterDuffXfermode(PorterDuff.Mode.DST_OUT);
-        paint.setXfermode(mode2);
+        paint.setXfermode(mode3);
         canvas.drawBitmap(bitmap2, 0, bitmap1.getHeight() + 20, paint);
         paint.setXfermode(null);
 
         // 用完之后使用 canvas.restore() 恢复 off-screen buffer
-
-        canvas.restoreToCount(saved);
-
+        canvas.restoreToCount(count);
     }
 }

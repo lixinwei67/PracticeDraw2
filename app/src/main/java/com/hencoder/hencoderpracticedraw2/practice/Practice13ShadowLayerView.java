@@ -25,7 +25,7 @@ public class Practice13ShadowLayerView extends View {
 
     {
         // 使用 Paint.setShadowLayer() 设置阴影
-        paint.setShadowLayer(10, 5, 8, Color.RED);
+        paint.setShadowLayer(10, 5, 5, Color.RED);
     }
 
     @Override

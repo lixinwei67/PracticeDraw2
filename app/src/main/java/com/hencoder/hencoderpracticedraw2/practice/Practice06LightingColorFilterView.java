@@ -15,6 +15,8 @@ import com.hencoder.hencoderpracticedraw2.R;
 public class Practice06LightingColorFilterView extends View {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Bitmap bitmap;
+    LightingColorFilter colorFilter1;
+    LightingColorFilter colorFilter2;
 
     public Practice06LightingColorFilterView(Context context) {
         super(context);
@@ -30,6 +32,8 @@ public class Practice06LightingColorFilterView extends View {
 
     {
         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.batman);
+        colorFilter1 = new LightingColorFilter(0x00ffff, 0x000000);
+        colorFilter2 = new LightingColorFilter(0xffffff, 0x003000);
     }
 
     @Override
@@ -39,12 +43,11 @@ public class Practice06LightingColorFilterView extends View {
         // 使用 Paint.setColorFilter() 来设置 LightingColorFilter
 
         // 第一个 LightingColorFilter：去掉红色部分
-
-        paint.setColorFilter(new LightingColorFilter(0x00ffff, 0x000000));
+        paint.setColorFilter(colorFilter1);
         canvas.drawBitmap(bitmap, 0, 0, paint);
 
         // 第二个 LightingColorFilter：增强绿色部分
-        paint.setColorFilter(new LightingColorFilter(0xffffff, 0x003000));
+        paint.setColorFilter(colorFilter2);
         canvas.drawBitmap(bitmap, bitmap.getWidth() + 100, 0, paint);
     }
 }
